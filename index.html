@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pago - Gustavo Rojas</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f4f7;
+  padding: 20px;
+}
+
+.formulario {
+  max-width: 480px;
+  margin: 20px auto;
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px #ccc;
+}
+
+h1 {
+  background: #176B91;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+h2 {
+  text-align: center;
+  color: #176B91;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 7px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 15px;
+}
+
+.producto {
+  background: #eef5f8;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.precio {
+  color: #176B91;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+button {
+  width: 100%;
+  background: #176B91;
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 20px;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #104d6b;
+}
+
+#completado {
+  display: none;
+  text-align: center;
+  color: green;
+  padding: 20px;
+  background: #e9f8ed;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="formulario">
+
+<h1>GUSTAVO ROJAS</h1>
+<h2>FORMULARIO DE PAGO</h2>
+
+<div class="producto">
+  <p>PRODUCTO SELECCIONADO</p>
+  <h3 id="producto">Cargando producto...</h3>
+  <p>PRECIO TOTAL</p>
+  <div class="precio" id="precio">US$0</div>
+</div>
+
+<form id="formularioPago">
+
+<label>Nombre completo</label>
+<input type="text" id="nombre" required
+placeholder="Escribe tu nombre">
+
+<label>Número de teléfono</label>
+<input type="tel" id="telefono" required
+placeholder="Escribe tu teléfono">
+
+<label>País</label>
+<select id="pais" required>
+  <option value="">Selecciona tu país</option>
+  <option>República Dominicana</option>
+  <option>Estados Unidos</option>
+  <option>Puerto Rico</option>
+  <option>Haití</option>
+  <option>España</option>
+  <option>Otro</option>
+</select>
+
+<label>Dirección de entrega</label>
+<textarea id="direccion" rows="3" required
+placeholder="Calle, ciudad, provincia y código postal"></textarea>
+
+<label>Método de pago</label>
+<select id="metodo" required>
+  <option value="">Selecciona tu método de pago</option>
+  <option>Pago contra entrega</option>
+  <option>Transferencia bancaria</option>
+  <option>Efectivo</option>
+</select>
+
+<button type="submit">PAGAR</button>
+
+</form>
+
+<div id="completado">
+  <h2>✓ ¡PEDIDO COMPLETADO!</h2>
+  <p>Gracias por comprar en Gustavo Rojas.</p>
+  <p>Tu solicitud ha sido confirmada en esta demostración.</p>
+</div>
+
+</div>
+
+<script>
+
+// PRODUCTOS DE LA TIENDA
+const productos = {
+  iphone12: {
+    nombre: "iPhone 12 de 64 GB",
+    precio: 450
+  },
+  iphone13: {
+    nombre: "iPhone 13",
+    precio: 550
+  },
+  iphone14: {
+    nombre: "iPhone 14",
+    precio: 650
+  },
+  samsung: {
+    nombre: "Samsung Galaxy",
+    precio: 350
+  }
+};
+
+// DETECTAR PRODUCTO SELECCIONADO
+const parametros = new URLSearchParams(
+  window.location.search
+);
+
+const codigo = parametros.get("producto");
+const seleccionado = productos[codigo];
+
+if (seleccionado) {
+  document.getElementById("producto").textContent =
+    seleccionado.nombre;
+
+  document.getElementById("precio").textContent =
+    "US$" + seleccionado.precio;
+} else {
+  document.getElementById("producto").textContent =
+    "Producto no seleccionado";
+}
+
+// CONFIRMAR PEDIDO
+document.getElementById("formularioPago")
+.addEventListener("submit", function(event) {
+
+  event.preventDefault();
+
+  if (!seleccionado) {
+    alert("No se ha seleccionado un producto.");
+    return;
+  }
+
+  document.getElementById("completado").style.display =
+    "block";
+
+  document.getElementById("formularioPago").style.display =
+    "none";
+
+});
+
+</script>
+
+</body>
+</html>
+
